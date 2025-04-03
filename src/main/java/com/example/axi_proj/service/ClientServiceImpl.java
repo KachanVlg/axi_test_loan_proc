@@ -30,14 +30,14 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize) {
-        return List.of();
-    }
 
-    @Override
-    public List<Client> findBy(String phone, String firstName,
-                               String secondName, String patronymic,
-                               String passportSeries, String passportNumber,
-                               int page, int pageSize) {
+        String phone = filter.getPassportNumber();
+        String firstName = filter.getFirstName();
+        String secondName = filter.getSecondName();
+        String patronymic = filter.getPatronymic();
+        String passportSeries = filter.getPassportSeries();
+        String passportNumber = filter.getPassportNumber();
+
         Specification<Client> desiredClient = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -62,14 +62,13 @@ public class ClientServiceImpl implements ClientService{
             }
 
             if (passportNumber != null && !passportNumber.isEmpty()) {
-                predicates.add(builder.equal(root.get("passportSeries"), passportSeries));
+                predicates.add(builder.equal(root.get("passportNumber"), passportNumber));
             }
             return builder.and(predicates.toArray(new Predicate[0]));
         };
-
         return clientRepository.findAll(desiredClient, PageRequest.of(page, pageSize)).toList();
-
     }
+
 
     @Override
     public Client save(Client client) {

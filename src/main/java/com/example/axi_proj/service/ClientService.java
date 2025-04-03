@@ -11,14 +11,6 @@ import java.util.Optional;
 
 public interface ClientService {
     List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize);
-    List<Client> findBy(String phone,
-                     String firstName,
-                     String secondName,
-                     String patronymic,
-                     String passportSeries,
-                     String passportNumber,
-                     int page,
-                     int pageSize);
     Client save(Client client);
     boolean exists(String passwordSeries, String passportNumber);
     Client get(String passwordSeries, String passportNumber);
