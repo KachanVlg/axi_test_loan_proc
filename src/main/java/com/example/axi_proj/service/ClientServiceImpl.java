@@ -1,6 +1,7 @@
 package com.example.axi_proj.service;
 
 
+import com.example.axi_proj.domain.dto.client.ClientFiltrationRequestParams;
 import com.example.axi_proj.domain.model.client.Client;
 import com.example.axi_proj.repository.ClientRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -28,8 +29,8 @@ public class ClientServiceImpl implements ClientService{
     private final ClientRepository clientRepository;
 
     @Override
-    public List<Client> list(int page, int pageSize) {
-        return clientRepository.findAll(PageRequest.of(page, pageSize)).toList();
+    public List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize) {
+        return List.of();
     }
 
     @Override
