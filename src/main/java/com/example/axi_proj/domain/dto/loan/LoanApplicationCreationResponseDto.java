@@ -18,5 +18,4 @@ public class LoanApplicationCreationResponseDto {
     private BigDecimal desiredAmount;
     private BigDecimal approvedAmount;
     private Integer approvedDeadline;
-    private LoanAgreementDto loanAgreementDto;
 }
