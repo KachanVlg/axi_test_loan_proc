@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -66,9 +67,34 @@ public class Client {
     private LocalDate employmentStart;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @OneToMany(mappedBy = "client_id",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LoanApplication> applications;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(firstName, client.firstName) &&
+                Objects.equals(secondName, client.secondName) &&
+                Objects.equals(patronymic, client.patronymic) &&
+                Objects.equals(passportSeries, client.passportSeries) &&
+                Objects.equals(passportNumber, client.passportNumber) &&
+                gender == client.gender &&
+                maritalStatus == client.maritalStatus &&
+                Objects.equals(registrationAddress, client.registrationAddress) &&
+                Objects.equals(residentialAddress, client.residentialAddress) &&
+                Objects.equals(phone, client.phone) &&
+                education == client.education &&
+                Objects.equals(job, client.job) &&
+                Objects.equals(jobTitle, client.jobTitle) &&
+                Objects.equals(employmentStart, client.employmentStart);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, secondName, patronymic, passportSeries, passportNumber,
+                gender, maritalStatus, registrationAddress, residentialAddress, phone,
+                education, job, jobTitle, employmentStart);
+    }
 }

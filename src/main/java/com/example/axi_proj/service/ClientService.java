@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface ClientService {
     List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize);
     Client save(Client client);
-    boolean exists(String passwordSeries, String passportNumber);
-    Client get(String passwordSeries, String passportNumber);
+    Optional<Client> get(String passportSeries, String passportNumber);
 
 }

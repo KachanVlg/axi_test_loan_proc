@@ -1,6 +1,7 @@
 package com.example.axi_proj.domain.model.loanApplication;
 
 
+import com.example.axi_proj.domain.model.client.Client;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,8 @@ public class LoanApplication {
 
     @Column(nullable = false)
     private Integer approvedDeadline;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 }

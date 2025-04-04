@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {}
+public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
+
+    Optional<Client> findClientByPassportNumberAndPassportSeries(String passportNumber, String passportSeries);
+}

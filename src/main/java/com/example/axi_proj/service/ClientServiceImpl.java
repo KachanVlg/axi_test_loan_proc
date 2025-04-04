@@ -4,21 +4,16 @@ package com.example.axi_proj.service;
 import com.example.axi_proj.domain.dto.client.ClientFiltrationRequestParams;
 import com.example.axi_proj.domain.model.client.Client;
 import com.example.axi_proj.repository.ClientRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -76,13 +71,8 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public boolean exists(String passwordSeries, String passportNumber) {
-        return false;
-    }
-
-    @Override
-    public Client get(String passwordSeries, String passportNumber) {
-        return null;
+    public Optional<Client> get(String passwordSeries, String passportNumber) {
+        return clientRepository.findClientByPassportNumberAndPassportSeries(passportNumber, passwordSeries);
     }
 
 }
