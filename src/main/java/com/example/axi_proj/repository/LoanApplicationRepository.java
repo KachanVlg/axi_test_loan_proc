@@ -11,6 +11,5 @@ import java.util.List;
 
 @Repository
 public interface LoanApplicationRepository extends JpaRepository<LoanApplication, Long> {
-
     List<LoanApplication> findLoanApplicationsByStatus(LoanApplicationStatus status, PageRequest pageRequest);
 }

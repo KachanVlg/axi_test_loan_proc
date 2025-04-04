@@ -1,12 +1,11 @@
 package com.example.axi_proj.controller;
 
 
-import com.example.axi_proj.domain.dto.loan.LoanAgreementDto;
+import com.example.axi_proj.domain.dto.loanAgreement.LoanAgreementDto;
 import com.example.axi_proj.domain.model.loanAgreement.LoanAgreement;
 import com.example.axi_proj.service.LoanAgreementService;
 import com.example.axi_proj.util.DtoMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,11 @@ public class LoanAgreementController {
     public List<LoanAgreementDto> listApprovedAgreements(@RequestParam(required = false, defaultValue = "0") int page,
                                                          @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
+        //Получить подписанные договоры
         List<LoanAgreement> agreementModels = loanAgreementService.listSignedAgreements(page, pageSize);
+
+        //Маппинг в дто
         return dtoMapper.toDto(agreementModels, LoanAgreementDto.class);
     }
+
 }

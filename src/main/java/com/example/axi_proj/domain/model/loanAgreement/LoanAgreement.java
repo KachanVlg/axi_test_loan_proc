@@ -19,7 +19,7 @@ public class LoanAgreement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 10, nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LoanAgreementStatus status;
 

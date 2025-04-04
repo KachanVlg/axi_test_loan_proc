@@ -1,8 +1,7 @@
-package com.example.axi_proj.domain.dto.loan;
+package com.example.axi_proj.domain.dto.loanApplication;
 
 
 import com.example.axi_proj.domain.model.loanApplication.LoanApplicationStatus;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

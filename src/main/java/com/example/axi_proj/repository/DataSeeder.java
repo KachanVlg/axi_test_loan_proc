@@ -7,7 +7,6 @@ import com.example.axi_proj.domain.model.client.MaritalStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -19,7 +18,6 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        clientRepository.deleteAll();
 
         Client client1 = new Client();
         client1.setFirstName("Иван");
@@ -53,7 +51,6 @@ public class DataSeeder implements CommandLineRunner {
         client2.setJobTitle("Project Manager");
         client2.setEmploymentStart(LocalDate.of(2018, 6, 15));
 
-        // Сохраняем клиентов в базе данных
         clientRepository.save(client1);
         clientRepository.save(client2);
     }

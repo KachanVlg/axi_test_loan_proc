@@ -1,6 +1,8 @@
 package com.example.axi_proj.service;
 
 
+import com.example.axi_proj.domain.exception.ClientNotFoundException;
+import com.example.axi_proj.domain.exception.LoanAgreementNotFoundException;
 import com.example.axi_proj.domain.exception.ValidationException;
 import com.example.axi_proj.domain.model.client.Client;
 import com.example.axi_proj.domain.model.loanAgreement.LoanAgreement;
@@ -13,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,13 +35,15 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
     @Transactional
     public LoanApplication processApplication(LoanApplication loanApplication, Client client) {
 
+        Client persistedClient;
+        LoanApplication persistedLoanApplication;
 
-        Optional<Client> optionalClient = clientService.get(client.getPassportSeries(), client.getPassportNumber());
-        LoanApplication savedLoanApplication;
-        Client savedClient;
-        if(optionalClient.isPresent()) {
+        //Проверяем на уже существующего клиента
+        try {
 
-            if(!optionalClient.get().equals(client)) {
+            persistedClient = clientService.getByPassport(client.getPassportSeries(), client.getPassportNumber());
+
+            if(!persistedClient.equals(client)) {
 
                 List<FieldError> errors = List.of(new FieldError(
                         "client",
@@ -50,43 +53,54 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
                 throw new ValidationException(errors);
             }
 
-            loanApplication.setClient(optionalClient.get());
+        } catch(ClientNotFoundException e) {
 
-        } else {
-            savedClient = clientService.save(client);
-            loanApplication.setClient(savedClient);
+            persistedClient = clientService.save(client);
+
         }
 
+        //Сохраняем заявку
+        loanApplication.setClient(persistedClient);
         loanApplication.setStatus(LoanApplicationStatus.PROCESSING);
-        savedLoanApplication = loanApplicationService.save(loanApplication);
+        persistedLoanApplication = loanApplicationService.save(loanApplication);
 
+        //Узнаем, одобрен ли кредит
         Optional<LoanTerms> loanTermsOptional = loanApprovalLogic.getLoanTerms(loanApplication);
 
+        //Если кредит не одобрен
         if(loanTermsOptional.isEmpty()) {
 
-            savedLoanApplication.setStatus(LoanApplicationStatus.REJECTED);
-            return loanApplicationService.save(savedLoanApplication);
+            //Сохраняем заявку со статусом "отклонена"
+            persistedLoanApplication.setStatus(LoanApplicationStatus.REJECTED);
+            return loanApplicationService.save(persistedLoanApplication);
         }
 
-        savedLoanApplication.setStatus(LoanApplicationStatus.APPROVED);
-        savedLoanApplication.setApprovedAmount(loanTermsOptional.get().getApprovedAmount());
-        savedLoanApplication.setApprovedDeadline(loanTermsOptional.get().getApprovedDeadline());
-        savedLoanApplication = loanApplicationService.save(savedLoanApplication);
+        //Если кредит одобрен, заполняем условия заявления.
+        //Сохраняем заявку
+        persistedLoanApplication.setStatus(LoanApplicationStatus.APPROVED);
+        persistedLoanApplication.setApprovedAmount(loanTermsOptional.get().getApprovedAmount());
+        persistedLoanApplication.setApprovedDeadline(loanTermsOptional.get().getApprovedDeadline());
+        persistedLoanApplication = loanApplicationService.save(persistedLoanApplication);
 
+
+        //Создаем кредитный договор
         LoanAgreement loanAgreement = new LoanAgreement();
-        loanAgreement.setApplication(savedLoanApplication);
+        loanAgreement.setApplication(persistedLoanApplication);
         loanAgreement.setStatus(LoanAgreementStatus.NOT_SIGNED);
         loanAgreementService.save(loanAgreement);
 
-        return loanApplication;
+        return persistedLoanApplication;
     }
+
 
     @Override
     public LoanAgreement signAgreement(long loanApplicationId) {
 
-        LoanAgreement loanAgreement = loanAgreementService.getByApplication(loanApplicationId);
+        LoanAgreement persistedLoanAgreement;
 
-        if(loanAgreement == null) {
+        try {
+            persistedLoanAgreement = loanAgreementService.getByApplication(loanApplicationId);
+        } catch (LoanAgreementNotFoundException e) {
             List<FieldError> errors = List.of(new FieldError(
                     "agreement",
                     "",
@@ -95,10 +109,9 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
             throw new ValidationException(errors);
         }
 
-        loanAgreement.setStatus(LoanAgreementStatus.SIGNED);
-        loanAgreement.setSignDate(LocalDate.now());
+        persistedLoanAgreement.setStatus(LoanAgreementStatus.SIGNED);
+        persistedLoanAgreement.setSignDate(LocalDate.now());
 
-        return loanAgreementService.save(loanAgreement);
-
+        return loanAgreementService.save(persistedLoanAgreement);
     }
 }

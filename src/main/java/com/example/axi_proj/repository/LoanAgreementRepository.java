@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface LoanAgreementRepository extends JpaRepository<LoanAgreement, Long> {
 
     List<LoanAgreement> findLoanAgreementByStatus(LoanAgreementStatus status, PageRequest pageRequest);
-
-    LoanAgreement findLoanAgreementByApplication_Id(Long application_id);
+    Optional<LoanAgreement> findLoanAgreementByApplication_Id(Long application_id);
 }

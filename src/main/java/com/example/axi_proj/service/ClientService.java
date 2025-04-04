@@ -1,17 +1,14 @@
 package com.example.axi_proj.service;
 
 
-import com.example.axi_proj.domain.dto.client.ClientFiltrationRequestParams;
+import com.example.axi_proj.domain.dto.client.ClientFiltersDto;
 import com.example.axi_proj.domain.model.client.Client;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ClientService {
-    List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize);
+    List<Client> list(ClientFiltersDto filter, int page, int pageSize);
     Client save(Client client);
-    Optional<Client> get(String passportSeries, String passportNumber);
-
+    Client getByPassport(String passportSeries, String passportNumber);
 }

@@ -5,15 +5,13 @@ import com.example.axi_proj.domain.model.loanApplication.LoanApplication;
 import com.example.axi_proj.domain.model.loanApplication.LoanApplicationStatus;
 import com.example.axi_proj.repository.LoanApplicationRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class LoanApplicationServiceImpl implements LoanApplicationService{
 

@@ -1,4 +1,4 @@
-package com.example.axi_proj.domain.dto.loan;
+package com.example.axi_proj.domain.dto.loanApplication;
 
 
 import jakarta.validation.constraints.Digits;

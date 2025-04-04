@@ -1,6 +1,7 @@
 package com.example.axi_proj.service;
 
 
+import com.example.axi_proj.domain.exception.LoanAgreementNotFoundException;
 import com.example.axi_proj.domain.model.loanAgreement.LoanAgreement;
 import com.example.axi_proj.domain.model.loanAgreement.LoanAgreementStatus;
 import com.example.axi_proj.domain.model.loanApplication.LoanApplication;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class LoanAgreementServiceImpl implements LoanAgreementService{
 
     private final LoanAgreementRepository repository;
@@ -32,6 +33,11 @@ public class LoanAgreementServiceImpl implements LoanAgreementService{
 
     @Override
     public LoanAgreement getByApplication(long applicationId) {
-        return repository.findLoanAgreementByApplication_Id(applicationId);
+
+        Optional<LoanAgreement> optionalLoanAgreement = repository.findLoanAgreementByApplication_Id(applicationId);
+
+        if(optionalLoanAgreement.isEmpty()) throw new LoanAgreementNotFoundException();
+
+        return optionalLoanAgreement.get();
     }
 }

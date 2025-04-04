@@ -19,7 +19,6 @@ public class ViolationErrorDto {
     public ViolationErrorDto(Set<ConstraintViolation<?>> violations) {
         this.errors = violations.stream()
                 .map(ConstraintViolation::getMessage)
-                .filter(errorMessage -> errorMessage.contains("Incorrect"))
                 .collect(Collectors.toList());
     }
 }

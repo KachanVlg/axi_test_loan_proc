@@ -36,11 +36,11 @@ public class Client {
     @Column(length = 6, nullable = false)
     private String passportNumber;
 
-    @Column(length = 6, nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(length = 7, nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
 
@@ -53,7 +53,7 @@ public class Client {
     @Column(length = 16, nullable = false)
     private String phone;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Education education;
 
@@ -65,7 +65,6 @@ public class Client {
 
     @Column(nullable = false)
     private LocalDate employmentStart;
-
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<LoanApplication> applications;

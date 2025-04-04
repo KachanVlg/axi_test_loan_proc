@@ -1,7 +1,8 @@
 package com.example.axi_proj.service;
 
 
-import com.example.axi_proj.domain.dto.client.ClientFiltrationRequestParams;
+import com.example.axi_proj.domain.dto.client.ClientFiltersDto;
+import com.example.axi_proj.domain.exception.ClientNotFoundException;
 import com.example.axi_proj.domain.model.client.Client;
 import com.example.axi_proj.repository.ClientRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService{
 
@@ -24,19 +24,19 @@ public class ClientServiceImpl implements ClientService{
     private final ClientRepository clientRepository;
 
     @Override
-    public List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize) {
+    public List<Client> list(ClientFiltersDto filters, int page, int pageSize) {
 
 
-        if(filter == null) {
+        if(filters == null) {
             return clientRepository.findAll(PageRequest.of(page, pageSize)).toList();
         }
 
-        String phone = filter.getPassportNumber();
-        String firstName = filter.getFirstName();
-        String secondName = filter.getSecondName();
-        String patronymic = filter.getPatronymic();
-        String passportSeries = filter.getPassportSeries();
-        String passportNumber = filter.getPassportNumber();
+        String phone = filters.getPassportNumber();
+        String firstName = filters.getFirstName();
+        String secondName = filters.getSecondName();
+        String patronymic = filters.getPatronymic();
+        String passportSeries = filters.getPassportSeries();
+        String passportNumber = filters.getPassportNumber();
 
         Specification<Client> desiredClient = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -66,7 +66,9 @@ public class ClientServiceImpl implements ClientService{
             }
             return builder.and(predicates.toArray(new Predicate[0]));
         };
+
         return clientRepository.findAll(desiredClient, PageRequest.of(page, pageSize)).toList();
+
     }
 
 
@@ -78,8 +80,13 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public Optional<Client> get(String passwordSeries, String passportNumber) {
-        return clientRepository.findClientByPassportNumberAndPassportSeries(passportNumber, passwordSeries);
+    public Client getByPassport(String passportSeries, String passportNumber) {
+
+        Optional<Client> optionalClient = clientRepository.findClientByPassportNumberAndPassportSeries(passportNumber, passportSeries);
+
+        if(optionalClient.isEmpty()) throw new ClientNotFoundException();
+
+        return optionalClient.get();
     }
 
 }
