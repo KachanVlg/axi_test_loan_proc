@@ -21,7 +21,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService{
 
     @Override
     public LoanApplication save(LoanApplication application) {
-        return null;
+        return repository.save(application);
     }
 
     @Override

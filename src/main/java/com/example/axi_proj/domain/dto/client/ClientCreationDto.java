@@ -54,9 +54,9 @@ public class ClientCreationDto {
     private String job;
 
     @NotBlank(message = "job_title must not be blank")
-    private String job_title;
+    private String jobTitle;
 
-    @NotBlank(message = "employment start must not be blank")
+    @NotNull(message = "employment start must not be blank")
     private LocalDate employmentStart;
 
     @NotNull(message = "education must not be blank")

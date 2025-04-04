@@ -24,7 +24,7 @@ public class LoanAgreementController {
 
     @GetMapping
     public List<LoanAgreementDto> listApprovedAgreements(@RequestParam(required = false, defaultValue = "0") int page,
-                                                         @RequestParam(required = false, defaultValue = "1") int pageSize) {
+                                                         @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
         List<LoanAgreement> agreementModels = loanAgreementService.listSignedAgreements(page, pageSize);
         return dtoMapper.toDto(agreementModels, LoanAgreementDto.class);

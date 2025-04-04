@@ -26,6 +26,11 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public List<Client> list(ClientFiltrationRequestParams filter, int page, int pageSize) {
 
+
+        if(filter == null) {
+            return clientRepository.findAll(PageRequest.of(page, pageSize)).toList();
+        }
+
         String phone = filter.getPassportNumber();
         String firstName = filter.getFirstName();
         String secondName = filter.getSecondName();
@@ -67,7 +72,9 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public Client save(Client client) {
-        return null;
+
+        return clientRepository.save(client);
+
     }
 
     @Override

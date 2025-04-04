@@ -67,7 +67,7 @@ public class Client {
     private LocalDate employmentStart;
 
 
-    @OneToMany(mappedBy = "client_id",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<LoanApplication> applications;
 
     @Override

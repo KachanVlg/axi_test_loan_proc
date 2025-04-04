@@ -25,7 +25,7 @@ public class LoanApplicationController {
 
     @GetMapping
     public List<LoanApplicationDto> listApprovedApplications(@RequestParam(required = false, defaultValue = "0") int page,
-                                                           @RequestParam(required = false, defaultValue = "1") int pageSize) {
+                                                           @RequestParam(required = false, defaultValue = "10") int pageSize) {
 
         List<LoanApplication> applicationModels = loanApplicationService.listApproved(page, pageSize);
         return dtoMapper.toDto(applicationModels, LoanApplicationDto.class);

@@ -25,13 +25,12 @@ public class LoanApplication {
     @Column(nullable = false, precision = 9, scale = 2)
     private BigDecimal desiredAmount;
 
-    @Column(nullable = false, precision = 9, scale = 2)
+    @Column(precision = 9, scale = 2)
     private BigDecimal approvedAmount;
 
-    @Column(nullable = false)
     private Integer approvedDeadline;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 }

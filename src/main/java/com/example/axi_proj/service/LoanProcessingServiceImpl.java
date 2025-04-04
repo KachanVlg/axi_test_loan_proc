@@ -64,12 +64,17 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
 
         if(loanTermsOptional.isEmpty()) {
 
-            loanApplication.setStatus(LoanApplicationStatus.REJECTED);
-            return loanApplicationService.save(loanApplication);
+            savedLoanApplication.setStatus(LoanApplicationStatus.REJECTED);
+            return loanApplicationService.save(savedLoanApplication);
         }
 
+        savedLoanApplication.setStatus(LoanApplicationStatus.APPROVED);
+        savedLoanApplication.setApprovedAmount(loanTermsOptional.get().getApprovedAmount());
+        savedLoanApplication.setApprovedDeadline(loanTermsOptional.get().getApprovedDeadline());
+        savedLoanApplication = loanApplicationService.save(savedLoanApplication);
+
         LoanAgreement loanAgreement = new LoanAgreement();
-        loanAgreement.setApplication(loanApplication);
+        loanAgreement.setApplication(savedLoanApplication);
         loanAgreement.setStatus(LoanAgreementStatus.NOT_SIGNED);
         loanAgreementService.save(loanAgreement);
 
@@ -93,7 +98,7 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
         loanAgreement.setStatus(LoanAgreementStatus.SIGNED);
         loanAgreement.setSignDate(LocalDate.now());
 
-        return loanAgreement;
+        return loanAgreementService.save(loanAgreement);
 
     }
 }
