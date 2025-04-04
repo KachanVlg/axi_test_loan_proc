@@ -28,4 +28,9 @@ public class LoanApplicationServiceImpl implements LoanApplicationService{
     public List<LoanApplication> listApproved(int page, int pageSize) {
         return repository.findLoanApplicationsByStatus(LoanApplicationStatus.APPROVED, PageRequest.of(page, pageSize));
     }
+
+    @Override
+    public LoanApplication get(long id) {
+        return repository.getReferenceById(id);
+    }
 }

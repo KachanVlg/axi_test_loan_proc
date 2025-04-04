@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +78,22 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
 
     @Override
     public LoanAgreement signAgreement(long loanApplicationId) {
-        return null;
+
+        LoanAgreement loanAgreement = loanAgreementService.getByApplication(loanApplicationId);
+
+        if(loanAgreement == null) {
+            List<FieldError> errors = List.of(new FieldError(
+                    "agreement",
+                    "",
+                    "Agreement is not found"
+            ));
+            throw new ValidationException(errors);
+        }
+
+        loanAgreement.setStatus(LoanAgreementStatus.SIGNED);
+        loanAgreement.setSignDate(LocalDate.now());
+
+        return loanAgreement;
+
     }
 }

@@ -15,4 +15,6 @@ import java.util.List;
 public interface LoanAgreementRepository extends JpaRepository<LoanAgreement, Long> {
 
     List<LoanAgreement> findLoanAgreementByStatus(LoanAgreementStatus status, PageRequest pageRequest);
+
+    LoanAgreement findLoanAgreementByApplication_Id(Long application_id);
 }
