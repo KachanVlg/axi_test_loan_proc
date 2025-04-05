@@ -25,7 +25,7 @@ public class LoanAgreement {
 
     private LocalDate signDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "application_id")
     private LoanApplication application;
 

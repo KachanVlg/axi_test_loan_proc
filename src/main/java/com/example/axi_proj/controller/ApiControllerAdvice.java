@@ -5,6 +5,7 @@ import com.example.axi_proj.domain.dto.exception.ViolationErrorDto;
 import com.example.axi_proj.domain.exception.ValidationException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,8 +21,8 @@ public class ApiControllerAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ViolationErrorDto handleViolationException(ConstraintViolationException e){
-        return new ViolationErrorDto(e.getConstraintViolations());
+    public ValidationErrorDto handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        return new ValidationErrorDto(e.getFieldErrors());
     }
 
 }

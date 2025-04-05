@@ -2,7 +2,10 @@ package com.example.axi_proj.domain.dto.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.validation.FieldError;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,4 +13,18 @@ import java.util.Map;
 @AllArgsConstructor
 public class ValidationErrorDto {
     private Map<String, List<String>> fieldErrors;
+
+
+    public ValidationErrorDto(List<FieldError> errors){
+        fieldErrors = new HashMap<>();
+        errors.forEach(e -> {
+            if(fieldErrors.containsKey(e.getField())){
+                List<String> oldErrors = new ArrayList<>(fieldErrors.get(e.getField()));
+                oldErrors.add(e.getDefaultMessage());
+                fieldErrors.put(e.getField(), oldErrors);
+            }
+            fieldErrors.put(e.getField(), List.of(e.getDefaultMessage()));
+        });
+    }
+    
 }

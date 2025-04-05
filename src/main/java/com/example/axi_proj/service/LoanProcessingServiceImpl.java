@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class LoanProcessingServiceImpl implements LoanProcessingService{
 
 
@@ -32,7 +33,6 @@ public class LoanProcessingServiceImpl implements LoanProcessingService{
 
 
     @Override
-    @Transactional
     public LoanApplication processApplication(LoanApplication loanApplication, Client client) {
 
         Client persistedClient;
