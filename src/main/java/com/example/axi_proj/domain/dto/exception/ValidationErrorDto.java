@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.validation.FieldError;
 
+import java.io.FilterOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +20,15 @@ public class ValidationErrorDto {
         fieldErrors = new HashMap<>();
         errors.forEach(e -> {
             if(fieldErrors.containsKey(e.getField())){
-                List<String> oldErrors = new ArrayList<>(fieldErrors.get(e.getField()));
+                List<String> oldErrors = fieldErrors.get(e.getField());
                 oldErrors.add(e.getDefaultMessage());
-                fieldErrors.put(e.getField(), oldErrors);
+                return;
             }
-            fieldErrors.put(e.getField(), List.of(e.getDefaultMessage()));
+            List<String> newErrors = new ArrayList<>();
+            newErrors.add(e.getDefaultMessage());
+            fieldErrors.put(e.getField(), newErrors);
         });
+        System.out.println(errors);
     }
     
 }

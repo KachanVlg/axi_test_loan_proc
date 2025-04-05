@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @Data
 public class ClientDto {
 
-    @Length(min = 1, max = 64, message = "The first name must consist of at least 1 and no more than 64 characters")
+    @Length(max = 64, message = "The first name must consist of at least 1 and no more than 64 characters")
     @NotBlank(message = "The first name must not be blank")
     @Pattern(regexp = "^[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?$", message = "Incorrect first name")
     private String firstName;
 
-    @Length(min = 1, max = 64, message = "The second name must consist of at least 1 and no more than 64 characters")
+    @Length(max = 64, message = "The second name must consist of at least 1 and no more than 64 characters")
     @NotBlank(message = "The second name must not be blank")
     @Pattern(regexp = "^[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?$", message = "Incorrect second name")
     private String secondName;
@@ -52,7 +52,7 @@ public class ClientDto {
     @NotBlank(message = "job must not be blank")
     private String job;
 
-    @NotBlank(message = "job_title must not be blank")
+    @NotBlank(message = "job title must not be blank")
     private String jobTitle;
 
     @NotNull(message = "employment start must not be blank")

@@ -9,13 +9,11 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class ClientFiltersDto {
 
-    @Length(min = 1, max = 64, message = "The first name must consist of at least 1 and no more than 64 characters")
-    @NotBlank(message = "The first name must not be blank")
+    @Length(max = 64, message = "The first name must consist of at least 1 and no more than 64 characters")
     @Pattern(regexp = "^[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?$", message = "Incorrect first name")
     private String firstName;
 
-    @Length(min = 1, max = 64, message = "The second name must consist of at least 1 and no more than 64 characters")
-    @NotBlank(message = "The second name must not be blank")
+    @Length(max = 64, message = "The second name must consist of at least 1 and no more than 64 characters")
     @Pattern(regexp = "^[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?$", message = "Incorrect second name")
     private String secondName;
 
