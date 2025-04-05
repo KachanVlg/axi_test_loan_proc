@@ -19,6 +19,9 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        clientRepository.deleteAll();
+
+
         Client client1 = new Client();
         client1.setFirstName("Иван");
         client1.setSecondName("Иванов");

@@ -2,6 +2,7 @@ package com.example.axi_proj.domain.model.loanApplication;
 
 
 import com.example.axi_proj.domain.model.client.Client;
+import com.example.axi_proj.domain.model.loanAgreement.LoanAgreement;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +31,10 @@ public class LoanApplication {
 
     private Integer approvedDeadline;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
+
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
+    private LoanAgreement agreement;
 }
