@@ -31,7 +31,7 @@ public class ClientServiceImpl implements ClientService{
             return clientRepository.findAll(PageRequest.of(page, pageSize)).toList();
         }
 
-        String phone = filters.getPassportNumber();
+        String phone = filters.getPhone();
         String firstName = filters.getFirstName();
         String secondName = filters.getSecondName();
         String patronymic = filters.getPatronymic();

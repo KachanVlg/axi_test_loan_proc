@@ -11,18 +11,11 @@ public class ClientFiltersDto {
 
 
     private String firstName;
-
-
     private String secondName;
-
-
     private String patronymic;
-
-
     private String passportSeries;
-
-
     private String passportNumber;
+    private String phone;
 }
 
 
